@@ -2,9 +2,9 @@
 
 import torch
 from torch import nn
-from src.policy import Policy
+from intersim.policy import Policy
 import numpy as np
-from src.datautils import powerseries
+from intersim.datautils import powerseries
 import time
 
 ## import julia files
