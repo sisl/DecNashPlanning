@@ -1,10 +1,8 @@
 # experiment.py
-import sys, os
-sys.path.append('./')
 import pickle
 import pandas as pd
-from src.datautils import *
-from src import RoundaboutSimulator
+from intersim.datautils import *
+from intersim import RoundaboutSimulator
 
 
 LOCATIONS = ['DR_USA_Roundabout_FT',
@@ -18,7 +16,7 @@ def main(locnum, track, setting, frames, animate):
     name=LOCATIONS[locnum]
     
     # load a trackfile
-    df = pd.read_csv('datasets/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
+    df = pd.read_csv('InteractionSimulator/datasets/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
     stv = df_to_stackedvehicletraj(df)
     sim = RoundaboutSimulator(stv)
 

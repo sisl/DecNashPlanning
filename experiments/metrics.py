@@ -1,9 +1,7 @@
-import sys, os
-sys.path.append('./')
 import pickle
-from src.datautils import *
-from src.graph import InteractionGraph
-from src.collisions import *
+from intersim.datautils import *
+from intersim.graph import InteractionGraph
+from intersim.collisions import *
 import torch
 
 LOCATIONS = ['DR_USA_Roundabout_FT',

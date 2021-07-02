@@ -1,7 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sys, os
-sys.path.append('./')
 
 from julia.api import Julia
 jl = Julia(compiled_modules=False)

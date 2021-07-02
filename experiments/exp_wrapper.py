@@ -1,7 +1,4 @@
 # experiment.py
-import sys, os
-sys.path.append('./')
-
 if __name__ == '__main__':
     loc = 0
     frames = 1000

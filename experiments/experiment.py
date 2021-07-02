@@ -1,11 +1,9 @@
 # experiment.py
-import sys, os
-sys.path.append('./')
 import pickle
 import pandas as pd
-from src.datautils import *
-from src import RoundaboutSimulator
-
+from intersim.datautils import *
+from intersim import RoundaboutSimulator
+import os
 
 LOCATIONS = ['DR_USA_Roundabout_FT',
              'DR_CHN_Roundabout_LN',
@@ -18,7 +16,7 @@ def main(locnum, track, setting, frames, animate):
     name=LOCATIONS[locnum]
     
     # load a trackfile
-    df = pd.read_csv('datasets/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
+    df = pd.read_csv('InteractionSimulator/datasets/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
     stv = df_to_stackedvehicletraj(df)
     sim = RoundaboutSimulator(stv)
 
@@ -29,20 +27,20 @@ def main(locnum, track, setting, frames, animate):
     
     
     if setting=='decnash':
-        from src.policies.decnash import DecNash
-        from src.graphs.conevisibility import ConeVisibilityGraph
+        from src.decnash import DecNash
+        from intersim.default_graphs.conevisibility import ConeVisibilityGraph
         graph = ConeVisibilityGraph(r=20, half_angle=120)
         policy = DecNash(graph,*sim.path_coefs,sim.smax,
                          stv.lengths,idm_intermediate=False)
     elif setting=='cnash':
-        from src.policies.decnash import DecNash
-        from src.graphs.conevisibility import ConeVisibilityGraph
+        from src.decnash import DecNash
+        from intersim.default_graphs.conevisibility import ConeVisibilityGraph
         graph = ConeVisibilityGraph(r=1000, half_angle=180)
         policy = DecNash(graph,*sim.path_coefs,sim.smax,
                          stv.lengths,idm_intermediate=False)
     elif setting=='idm':
-        from src.policies.idm import IDM
-        from src.graphs.closestobstacle import ClosestObstacleGraph
+        from intersim.default_policies.idm import IDM
+        from intersim.default_graphs.closestobstacle import ClosestObstacleGraph
         graph = ClosestObstacleGraph(half_angle=20)
         policy = IDM(stv.lengths)
     else:
@@ -110,7 +108,7 @@ def main(locnum, track, setting, frames, animate):
     # save animation
     if animate:
         import matplotlib.animation as animation
-        from src.viz.animatedviz import AnimatedViz
+        from intersim.viz.animatedviz import AnimatedViz
         import matplotlib.pyplot as plt
         
         Writer = animation.writers['ffmpeg']
@@ -118,7 +116,7 @@ def main(locnum, track, setting, frames, animate):
         fig = plt.figure()
         ax = plt.axes(xlim=(900, 1100), ylim=(900, 1100))
         ax.set_aspect('equal', 'box')
-        osm = 'datasets/maps/'+name+'.osm'
+        osm = 'InteractionSimulator/datasets/maps/'+name+'.osm'
         av = AnimatedViz(ax, osm, states, stv.lengths, stv.widths, graphs=graph_list)
         ani = animation.FuncAnimation(fig, av.animate, frames=len(states),
                        interval=20, blit=True, init_func=av.initfun, 
