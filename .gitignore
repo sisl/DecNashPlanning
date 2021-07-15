@@ -133,3 +133,9 @@ dmypy.json
 
 # Datasets
 datasets/
+
+# Results
+experiments/results/
+
+# Dependencies
+InteractionSimulator/
