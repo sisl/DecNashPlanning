@@ -8,7 +8,7 @@ Clone InteractionSimulator and pip install the module.
 ```
 git clone https://github.com/sisl/InteractionSimulator.git
 cd InteractionSimulator
-git checkout v0.0.1
+git checkout v0.0.2
 pip install -e .
 cd ..
 export PYTHONPATH=$(pwd):$PYTHONPATH
@@ -25,7 +25,11 @@ The INTERACTION dataset contains a two folders which should be copied into a fol
 ## Running experiments
 Can run all experiments to generate trajectories and videos using `python experiments/exp_wrapper.py` (which makes successive calls to `experiments/experiment.py` with appropriate settings.
 
-To calculate metrics from already generated trajectories, run `python metrics.py`.
+To calculate metrics from already generated trajectories, run `python experiments/metrics.py`.
+
+To generate plots used in paper for single game solution, run `python experiments/single_game.py`.
+
+You can manually make animations from saved states, graphs, lengths, and widths (post-process) using `python experiments/animate.py`.
 
 ## Issues
 For issues with `ffmpeg` when saving videos, if using conda to manage environments, use `conda install -c conda-forge ffmpeg`
