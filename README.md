@@ -4,6 +4,16 @@ Decentralized game-theoretic planning using the [INTERACTION Dataset](https://in
 Code for "Multi-Vehicle Control in Roundabouts using Decentralized Game-Theoretic Planning" at IJCAI 2021 AI4AD Workshop.
 
 ## Getting started
+Clone the DecNashPlanning repository
+```
+git clone https://github.com/sisl/DecNashPlanning.git
+cd DecNashPlanning
+```
+Create and activate a conda environment with Python 3.7
+```
+conda create -y --name dnp python==3.7
+conda activate dnp
+```
 Clone InteractionSimulator and pip install the module.
 ```
 git clone https://github.com/sisl/InteractionSimulator.git
@@ -17,19 +27,31 @@ Install additional requirements
 ```
 pip install -r requirements.txt
 ```
+Install `ffmpeg` writer
+```
+conda install -c conda-forge ffmpeg
+```
 Copy INTERACTION Dataset files:
 The INTERACTION dataset contains a two folders which should be copied into a folder called `./InteractionSimulator/datasets`: 
   - the contents of `recorded_trackfiles` should be copied to `./InteractionSimulator/datasets/trackfiles`
   - the contents of `maps` should be copied to `./InteractionSimulator/datasets/maps`
 
-## Running experiments
-Can run all experiments to generate trajectories and videos using `python experiments/exp_wrapper.py` (which makes successive calls to `experiments/experiment.py` with appropriate settings.
 
+
+## Running experiments
+You can run all experiments to generate trajectories and videos using `python experiments/exp_wrapper.py` (which makes successive calls to `experiments/experiment.py` with appropriate settings.
+
+To calculate metrics from already generated trajectories, run `python experiments/metrics.py`.
+
+<<<<<<< HEAD
 To calculate metrics from already generated trajectories, run `python experiments/metrics.py`.
 
 To generate plots used in paper for single game solution, run `python experiments/single_game.py`.
 
 You can manually make animations from saved states, graphs, lengths, and widths (post-process) using `python experiments/animate.py`.
+=======
+To generate paper figures for single frame solution, run `python experiments/single_game.py`.
+>>>>>>> 009bb59e650acd35a15b66a34d58857340493ce1
 
 ## Issues
 For issues with `ffmpeg` when saving videos, if using conda to manage environments, use `conda install -c conda-forge ffmpeg`
