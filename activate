@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 layout_poetry() {
   if [[ ! -f pyproject.toml ]]; then
     log_error 'No pyproject.toml found. Use `poetry new` or `poetry init` to create one first.'
@@ -17,4 +19,6 @@ layout_poetry
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 export JULIA_PROJECT=$SCRIPT_DIR/src/julia/
 
-source .env
+if test -f ./.env; then
+  source ./.env
+fi

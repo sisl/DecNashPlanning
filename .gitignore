@@ -139,3 +139,4 @@ experiments/results/
 
 # Dependencies
 poetry.lock
+Manifest.toml
