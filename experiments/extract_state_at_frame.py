@@ -1,7 +1,7 @@
 # experiment.py
-import pickle
+import torch
 import pandas as pd
-from intersim.datautils import *
+import intersim.datautils as utils
 from intersim import RoundaboutSimulator
 
 
@@ -12,20 +12,20 @@ LOCATIONS = ['DR_USA_Roundabout_FT',
              'DR_USA_Roundabout_SR']
 
 def main(locnum, track, setting, frames, animate):
-    
+
     name=LOCATIONS[locnum]
-    
+
     # load a trackfile
-    df = pd.read_csv('InteractionSimulator/datasets/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
-    stv = df_to_stackedvehicletraj(df)
+    df = pd.read_csv(f'{utils.DATASET_DIR}/trackfiles/'+name+'/vehicle_tracks_%03i.csv'%(track))
+    stv = utils.df_to_stackedvehicletraj(df)
     sim = RoundaboutSimulator(stv)
 
     states = []
     s,_ = sim.reset()
     s = s.reshape(-1,5)
     states.append(s)
-    
-    
+
+
     if setting=='decnash':
         from src.policies.decnash import DecNash
         from src.graphs.conevisibility import ConeVisibilityGraph
@@ -45,24 +45,24 @@ def main(locnum, track, setting, frames, animate):
         policy = IDM(stv.lengths)
     else:
         raise('Setting %s not implemented'%(setting))
-    
-    
+
+
     graph_list = []
-    
+
     for i in range(frames):
         print("Frame %04d" %(i))
         v = s[:,2:3]
         nni = ~torch.isnan(v)
-        
+
         # update graph
         graph.update_graph(s.reshape(-1))
         graph_list.append(graph.edges)
-        
-        if i == 43:          
+
+        if i == 43:
             torch.set_printoptions(precision=10)
             import ipdb
             ipdb.set_trace()
-        
+
         # compute action
         if 'nash' in setting:
             p = sim.state[:,0:1]
@@ -70,15 +70,15 @@ def main(locnum, track, setting, frames, animate):
             a = policy.compute_action_from_full_state(full_state)
         else:
             a = policy(s.reshape(-1))
-            
+
         if torch.any(torch.isnan(a[nni])):
-            raise('Improper Acceleration')
-        
+            raise(ValueError('Improper Acceleration'))
+
         # simulate step
         s, _ = sim.step(a)
         s = s.reshape(-1,5)
         states.append(s)
-    
+
     # append final state/graph
     graph.update_graph(s.reshape(-1))
     graph_list.append(graph.edges)
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                        help='track number (default 0)')
     parser.add_argument('--frames', default=1000, type=int,
                        help='number of frames (default 1000)')
-    parser.add_argument('--exp', choices=['decnash', 'cnash', 'idm'], 
+    parser.add_argument('--exp', choices=['decnash', 'cnash', 'idm'],
                         default='decnash', help='experiment')
     parser.add_argument('--ani', type=bool, default=True,
                        help='Whether to save animation')

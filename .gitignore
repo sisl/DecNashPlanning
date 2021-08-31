@@ -138,4 +138,5 @@ datasets/
 experiments/results/
 
 # Dependencies
-InteractionSimulator/
+poetry.lock
+Manifest.toml

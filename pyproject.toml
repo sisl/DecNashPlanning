@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "decnashplanning"
+version = "0.1.0"
+description = ""
+authors = ["Arec Jamgocian <jamgochian95@gmail.com>"]
+license = "MIT"
+packages = [{ include = "src/decnash.py" }]
+
+[tool.poetry.dependencies]
+python = "~3.7.1"
+julia = "^0.5.6"
+tikzplotlib = "^0.9.12"
+intersim = { git = "https://github.com/sisl/InteractionSimulator", rev = "e104ee6135503bbcea52b490ae7e63b7108e7e78"}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
