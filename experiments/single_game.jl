@@ -1,3 +1,6 @@
+import Pkg
+Pkg.activate(".")
+Pkg.instantiate()
 include("../src/julia/AlgamesRoundabout.jl")
 using .AlgamesRoundabout
 using Plots

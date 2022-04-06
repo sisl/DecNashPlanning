@@ -14,6 +14,9 @@ import time
 from julia.api import Julia
 jl = Julia(compiled_modules=False)
 from julia import Main
+from julia import Pkg
+Pkg.activate('.')
+Pkg.instantiate()
 jl.eval('include("./src/julia/AlgamesRoundabout.jl")')
 jl.using('.AlgamesRoundabout')
 

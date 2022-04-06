@@ -1,7 +1,19 @@
 # DecNashPlanning
-Decentralized game-theoretic planning using the [INTERACTION Dataset](https://interaction-dataset.com/)
+Decentralized game-theoretic planning with v0.0.2 of the [Interaction Simulator](https://github.com/InteractionSimulator), which uses the [Interaction Dataset](https://interaction-dataset.com/) scenarios to determine vehicle paths and spawn times.
 
-Code for "Multi-Vehicle Control in Roundabouts using Decentralized Game-Theoretic Planning" at IJCAI 2021 AI4AD Workshop.
+Code for "[Multi-Vehicle Control in Roundabouts using Decentralized Game-Theoretic Planning](https://www.dropbox.com/s/kd19us8447fhabu/19.pdf?dl=0)" at IJCAI 2021 AI4AD Workshop.
+
+If you find this repository useful, please cite the paper:
+
+```
+@inproceedings{jamgochian2021multivehicle,
+  author = {Arec Jamgochian and Kunal Menda and Mykel J. Kochenderfer},
+  title = {Multi-Vehicle Control in Roundabouts using Decentralized Game-Theoretic Planning}
+  series = {Artificial Intelligence for Autonomous Driving Workshop},
+  booktitle = {International Joint Conference on Artificial Intelligence (IJCAI)},
+  year = {2021}
+}
+```
 
 ## Getting started
 Clone the DecNashPlanning repository
@@ -9,56 +21,38 @@ Clone the DecNashPlanning repository
 git clone https://github.com/sisl/DecNashPlanning.git
 cd DecNashPlanning
 ```
-Create and activate a conda environment with Python 3.7
+
+Clone InteractionSimulator with the `decnash` tag and install requirements using `poetry`.
 ```
-conda create -y --name dnp python==3.7
-conda activate dnp
-```
-Clone InteractionSimulator and pip install the module.
-```
-git clone https://github.com/sisl/InteractionSimulator.git
+git clone --branch decnash https://github.com/sisl/InteractionSimulator.git
 cd InteractionSimulator
-git checkout v0.0.2
-pip install -e .
+poetry install
+poetry shell
 cd ..
 export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
-Install additional requirements
+
+Copy INTERACTION Dataset files:
+The INTERACTION dataset contains a two folders which should be copied into a folder called `./InteractionSimulator/datasets`: 
+  - the contents of `recorded_trackfiles` should be copied to `./InteractionSimulator/datasets/trackfiles`
+  - the contents of `maps` should be copied to `./InteractionSimulator/datasets/maps`
+
+Install additional requirements for `DecNashPlanning`:
 ```
 pip install -r requirements.txt
-```
-Install `ffmpeg` writer
-```
-conda install -c conda-forge ffmpeg
 ```
 Copy INTERACTION Dataset files:
 The INTERACTION dataset contains a two folders which should be copied into a folder called `./InteractionSimulator/datasets`: 
   - the contents of `recorded_trackfiles` should be copied to `./InteractionSimulator/datasets/trackfiles`
   - the contents of `maps` should be copied to `./InteractionSimulator/datasets/maps`
 
-
+Download and install [Julia](julialang.org) . We use version 1.5.3.
 
 ## Running experiments
 You can run all experiments to generate trajectories and videos using `python experiments/exp_wrapper.py` (which makes successive calls to `experiments/experiment.py` with appropriate settings.
 
 To calculate metrics from already generated trajectories, run `python experiments/metrics.py`.
 
-To calculate metrics from already generated trajectories, run `python experiments/metrics.py`.
-
 To generate plots used in paper for single game solution, run `python experiments/single_game.py`.
 
 You can manually make animations from saved states, graphs, lengths, and widths (post-process) using `python experiments/animate.py`.
-
-## Issues
-For issues with `ffmpeg` when saving videos, if using conda to manage environments, use `conda install -c conda-forge ffmpeg`
-
-## Citation
-
-If you found this repository or the associated simulator useful, please cite this [paper](https://www.dropbox.com/s/kd19us8447fhabu/19.pdf?dl=0):
-
-```
-@inproeedings{jamgochian2021multivehicle,
-  author  = {Arec Jamgochian and Kunal Menda and Mykel J. Kochenderfer},
-  title   = {Multi-Vehicle Control in Roundabouts using Decentralized Game-Theoretic Planning}
-}
-```

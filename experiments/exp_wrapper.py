@@ -1,4 +1,6 @@
 # experiment.py
+
+import os
 if __name__ == '__main__':
     loc = 0
     frames = 1000
